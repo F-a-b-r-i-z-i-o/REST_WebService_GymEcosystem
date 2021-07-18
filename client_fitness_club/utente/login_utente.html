@@ -1,0 +1,79 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login Utente</title>
+    <!-- Custom styles for this template -->
+    <link href="../css/cover.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="../index.html">Home</a></li> 
+                </ul>
+              </nav>
+              <br>
+              <br>      
+              <h1 class="black">LOG IN USER</h1>
+              <img src="../immagini/utente.jpg" width="550px">
+              <main class="form-signin">
+                <form id="form">
+                  <br>
+                  <div class="form-floating">  
+                    <input id="email" type="email" name="email" class="form-control"  placeholder="name@example.com">
+                  </div>
+                
+                  <br>
+                  <div class="form-floating">  
+                    <input id="password" type="password" name="password" class="form-control"  placeholder="password">
+                  </div>
+                  <br>
+                  <p class="black"><b>ARE YOU READY?</b></p>
+                  <button class="w-100 btn btn-lg btn-primary" type="submit"  role="button">Log in</button>
+                </form>
+                <div class="inner cover">
+                  <di class="mypanel2"></div>
+                  <di class="mypanel3"></div>
+               </div>
+              </main>
+
+    <script>
+        $('#form').submit(function(e){
+          e.preventDefault();
+          $.ajax({
+              url: 'http://localhost:8080/fitness_club/cliente/login',
+              method: 'POST',
+              data: $(this).serialize(),
+            success: function(response){
+              console.log(response.statusCode);
+              localStorage.setItem('user', JSON.stringify(response));
+              localStorage.setItem('id', JSON.stringify(response.id));
+              localStorage.setItem('jwt', JSON.stringify(response.accessToken));
+              console.log("user" + localStorage.getItem('user'));
+              console.log("id " + localStorage.getItem('id'));
+              console.log("jwt" + localStorage.getItem('jwt'));
+
+              cname = 'id';
+              cvalue = response.id;
+              cname1 = 'token'
+              ctoken = response.accessToken;
+              document.cookie = cname + "= " + cvalue + "; ";
+              document.cookie = cname1 + "= " + ctoken + "; ";
+              window.location = "home_utente.html";
+            },
+            error:function(response){
+              console.log(response);
+              var text = '<h4 class="yellow"> Incorrect USERNAME or PASSWORD </h4>';
+              var text2 ='<h4 class="yellow"> TRY AGAIN! </h4>'
+              $(".mypanel2").html(text);
+              $(".mypanel3").html(text2);
+            }
+        })
+      });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<html lang="en">
+  <head>
+    <title>REPORT GYM</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Custom styles for this template -->
+    <link href="../css/cover.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <nav class="home">
+      <a href="home_palestra.html">Home</a>
+  </nav>
+  <body>
+    <h3 class="titoloCovid">POSSIBLE CASES OF COVID19</h3> 
+    <img src="../immagini/covid19.jpg" width="650px">
+    <div>
+        <table class="segnalazioni"> 
+        </table>
+        <br>
+    </div>
+    <div>
+      <table class="mypanelC"> 
+      </table>
+      <br>
+  </div>
+    <form id="form">
+      <input id="id_cliente" name="id_cliente" type="text" placeholder="Search">
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Search</button>
+    </form> 
+  </body>
+<script>
+
+    function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+        }
+let jwt = getCookie("token");
+let id_utente = getCookie("id");
+
+  $.ajax({
+    type: 'GET',
+    url: 'http://localhost:8080/fitness_club/segnalazioni',
+    crossDomain: true,
+    dataType: 'json',
+    headers:
+    {
+      Authorization :  "Bearer " + jwt,
+      id : id_utente
+    },
+    success: function(data) {
+    var text = '<tr><th>ID SEGNALAZIONE</th><th>ID CLIENTE</th></tr>'
+    for (let i = 0; i < data.data.length; i++) {
+      text = text + `
+        <tr><td>${data.data[i]._id}</td>` + 
+          `<td>${data.data[i].id_cliente}</td>`          
+        }
+        $(".segnalazioni").html(text);
+    },
+    error: function (data) {
+        alert('GET failed.'); 
+    }
+});
+</script>
+
+<script>
+  $('#form').submit(function(e){
+              e.preventDefault();
+              $.ajax({
+                url: 'http://localhost:8080/fitness_club/palestra/prenotazioni/segnalazione',
+                method: 'POST',
+                data: $(this).serialize(),
+                headers:
+                {
+                  Authorization :  "Bearer " + jwt,
+                  id : id_utente
+                },
+              success: function(data){
+                console.log(data);
+                console.log(data.data);
+                var text = '<tr><th>ID SEGNALAZIONE</th><th>ID CLIENTE</th><th>PALESTRA</th><th>ORARIO PRENOTAZIONE</th><th>PHONE</th></tr>'
+                for (let i = 0; i < data.data.length; i++) {
+                var text = text + `
+                <tr><td>${data.data[i]._id}</td>` + 
+                `<td>${data.data[i].id_cliente}</td>`+
+                `<td>${data.data[i].name_palestra}</td>`+
+                `<td>${data.data[i].orario_prenotazione}</td>`+
+                `<td>${data.data[i].phone}</td>`+
+                `</tr>` 
+                }
+                $(".mypanelC").html(text);
+                },
+                error:function(data){
+                console.log(data);
+          }
+        })
+      });
+</script>
+</html>

@@ -1,0 +1,75 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Registrazione Utente</title>
+    <!-- Custom styles for this template -->
+    <link href="../css/cover.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body background="../immagini/immagine.jpg">
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="../index.html">Home</a></li> 
+                </ul>
+              </nav>
+              <br>
+              <br>
+              <br>  
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <h1 class="yellow"><b>REGISTER USER</b></h1> 
+              <main class="form-signin">
+
+                <form id="form">
+                  <br>
+                  <div class="form-floating">  
+                    <input  id="firstName" name="firstName" type="text" class="form-control" placeholder="FirstName" name="FirstName">
+                  </div>
+      
+                  <br>
+                  <div class="form-floating">  
+                    <input id="lastName" name="lastName" type="text" class="form-control"  placeholder="LastName" name="LastName">
+                  </div>
+                  
+                  <br>
+                  <div class="form-floating">  
+                    <input id="email" type="email" name="email" class="form-control"  placeholder="name@example.com" name="email">
+                  </div>
+                
+                  <br>
+                  <div class="form-floating">  
+                    <input id="password" name="password" type="password" class="form-control"  placeholder="password" name="password">
+                  </div>
+                  <br>
+                  <button class="w-100 btn btn-lg btn-primary" type="submit" id="butsave">Register USER</button>
+
+                </form>
+
+              </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  </body>
+  <script>
+     $('#form').submit(function(e){
+          e.preventDefault();
+          $.ajax({
+              url: 'http://localhost:8080/fitness_club/cliente/signup',
+              method: 'POST',
+              data: $(this).serialize(),
+            success: function(reponse){
+              console.log(reponse);
+              window.location = "login_utente.html"
+            },
+            error:function(reponse){
+              console.log(reponse);
+
+            }
+        })
+      });
+    </script>
+  </script>
+</html>

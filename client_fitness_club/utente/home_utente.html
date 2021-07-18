@@ -1,0 +1,64 @@
+<html lang="en">
+        <head>
+          <title>Home User</title>
+          <meta charset="utf-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="canonical" href="https://getbootstrap.com/docs/3.3/examples/cover/">
+          <!-- Custom styles for this template -->
+          <link href="../css/cover.css" rel="stylesheet">
+        </head>
+      
+        <body>
+      
+          <div class="site-wrapper">
+      
+            <div class="site-wrapper-inner">
+      
+              <div class="cover-container">
+      
+                <div class="masthead clearfix">
+                  <nav>
+                    <ul class="nav masthead-nav">
+                      <li class="active"><a href="account.html">ACCOUNT</a></li>
+                      <li class="active"><a href="../index.html">LOG OUT</a></li> 
+                    </ul>
+                  </nav>
+                  <div class="inner">   
+                  <div class="inner cover">
+                    <br>
+                    <br>
+                    <h1 class="black">WELCOME IN THE USER HOMEPAGE</h1>
+                    <img src="../immagini/home-utente.jpg" width="600px">
+                    <p class="lead">
+                    <br>
+                    <br>
+                    <a href="report.html" class="btn btn-lg btn-default">COVID19 REPORT</a>
+                    <a href="books_utente.html" class="btn btn-lg btn-default">BOOK SESSION</a>
+                    <a href="show_books_utente.html" class="btn btn-lg btn-default">SHOW BOOKS</a>
+                    </p>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </body>
+      <script>
+            function getCookie(cname) {
+              let name = cname + "=";
+              let decodedCookie = decodeURIComponent(document.cookie);
+              let ca = decodedCookie.split(';');
+              for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+                }
+              }
+              return "";
+            }
+            let x = getCookie("token")
+            console.log(x);
+      </script>
+</html>

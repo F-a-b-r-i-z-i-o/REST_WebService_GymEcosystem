@@ -1,0 +1,182 @@
+<html lang="en">
+        <head>
+          <title>ACCOUNT UTENTE</title>
+          <meta charset="utf-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="canonical" href="https://getbootstrap.com/docs/3.3/examples/cover/">
+          <!-- Custom styles for this template -->
+          <link href="../css/cover.css" rel="stylesheet">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        </head>
+        <body>
+          <div class="site-wrapper">
+      
+            <div class="site-wrapper-inner">
+      
+              <div class="cover-container">
+      
+                <div class="masthead clearfix">
+                  <nav>
+                    <ul class="nav masthead-nav">
+                      <li class="active"><a href="../index.html">LOGOUT</a></li> 
+                      <li class="active"><a href="home_utente.html">HOME</a></li> 
+                    </ul>
+                  </nav>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <hr>
+                  <h2 class="black"><b>YOUR DATA</b></h2>
+                  <div class="dati">
+                  </div>
+                  <hr>
+                  <br>
+                  <h4 class="black">UPDATE YOUR DATA</h14>
+                  <main class="form-signin">
+                    <form method="POST" id="form">
+                      <br>
+                      <div class="form-floating">  
+                        <input  id="firstName" name="firstName" type="text" class="form-control" placeholder="firstName">
+                      </div>
+                      
+                      <br>
+                      <div class="form-floating">  
+                        <input id="lastName" name="lastName" type="text" class="form-control"  placeholder="lastName">
+                      </div>
+                      
+                      <br>
+                      <div class="form-floating">  
+                        <input id="email" name="email" type="email" class="form-control"  placeholder="email">
+                      </div>
+    
+                      <br>
+                      <div class="form-floating">  
+                        <input id="password" name="password" type="password" class="form-control" placeholder="password">
+                      </div>
+    
+
+                      <br>
+                      <br>
+                      <button class="w-100 btn btn-lg btn-primary" type="submit" id="butsave">UPDATE YOUR DATA!</button>
+                      <div class="modifica"></div>
+                    </form>
+                    OR
+                    <br>
+                    <br>
+                    <form id="form2">
+                        <button class="w-100 btn btn-lg btn-primary" type="submit" id="butsave">DELETE ACCOUNT</button>
+                        <div class="eliminazione"></div>
+                    </form>
+
+
+                  </main>
+                  <div class="inner">   
+                  <div class="inner cover">
+                </div>
+              </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+                }
+                return "";
+            }
+            let jwt = getCookie("token");
+            let id_utente = getCookie("id");
+          
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/fitness_club/cliente',
+                crossDomain: true,
+                dataType: 'json',
+                headers:
+                {
+                  Authorization :  "Bearer " + jwt,
+                  id : id_utente
+                },
+                success: function(data) {
+                  var text = ''
+                    for (let i = 0; i < data.data.length; i++) {
+                    var text = text + `
+                    <p class="etichette">NOME: <span class="dato">${data.data[i].firstName}</span></p>` + 
+                    `<p class="etichette">COGNOME: <span class="dato">${data.data[i].lastName}</span></p>` + 
+                    `<p class="etichette">EMAIL: <span class="dato">${data.data[i].email}</span></p>`
+                }
+                $(".dati").html(text);
+
+                },
+                error: function (data) {
+                      alert('GET failed.'); 
+                }
+              });
+
+        $('#form').submit(function(e){
+        e.preventDefault();
+          $.ajax({
+            url: 'http:/localhost:8080/fitness_club/cliente',
+            method: 'PUT',
+            crossDomain: true,
+            dataType: 'json',
+            headers:
+            {
+                Authorization :  "Bearer " + jwt,
+                id : id_utente
+            },
+            data: $(this).serialize(),
+            success: function(data){
+              $(".modifica").html("Dati correttamente modificati");
+              window.setTimeout(function(){
+                // Move to a new location or you can do something else
+                window.location = "account.html";
+                }, 3000);
+            },
+            error:function(data){
+              console.log(data);
+            
+            }
+        })
+      });
+
+      $('#form2').submit(function(e){
+        e.preventDefault();
+          $.ajax({
+            url: 'http:/localhost:8080/fitness_club/cliente',
+            method: 'DELETE',
+            crossDomain: true,
+            dataType: 'json',
+            headers:
+            {
+                Authorization :  "Bearer " + jwt,
+                id : id_utente
+            },
+            data: $(this).serialize(),
+            success: function(data){
+              $(".eliminazione").html("Account eliminato correttamente!");
+              window.setTimeout(function(){
+                // Move to a new location or you can do something else
+                window.location = "../index.html";
+                }, 3000);
+            },
+            error:function(data){
+              console.log(data);
+            
+            }
+        })
+      });
+    </script>
+</html>

@@ -1,0 +1,92 @@
+<html lang="en">
+  <head>
+
+    <title>REPORT UTENTE</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://getbootstrap.com/docs/3.3/examples/cover/">
+    <!-- Custom styles for this template -->
+    <link href="../css/cover.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="masthead clearfix">
+            <div class="inner">
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="../utente/home_utente.html">Home</a></li> 
+                </ul>
+              </nav>
+              <br>
+              <br>
+              <br>
+              <br>    
+              <h1 class="red">ATTENTION!</h1>
+              <br>
+              <br>
+              <h2 class="titolo2">IF YOU HAVE BEEN IN CONTACT WITH A POSSIBLE CASE OF COVID19 OR YOU ARE POSITIVE</h2> 
+              <br>
+              <br>
+              <h4 class="red">REPORT!</h4>
+              <main class="form-signin">
+                <form method="POST" id="form">
+                  <br>
+                  <button class="w-100 btn btn-lg btn-primary" type="submit" id="butsave">REPORT NOW!</button>
+                </form>
+              </main>
+            <div class="mypanelC">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+<script>
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+            }
+          }
+          return "";
+        }
+let jwt = getCookie("token");
+let id_utente = getCookie("id");
+  
+$('#form').submit(function(e){
+  e.preventDefault();
+  $.ajax({
+  type: 'POST',
+  url: 'http://localhost:8080/fitness_club/cliente/segnalazione',
+  crossDomain: true,
+  dataType: 'json',
+  headers:
+  {
+    Authorization :  "Bearer " + jwt,
+    id : id_utente
+  },
+  success: function(data) {
+    $(".mypanelC").html("Segnalazione effettuata con successo e presa in carico dalla palestra");
+  },
+  error: function(data){
+    console.log(error);
+    }
+  })
+});
+
+</script>
+
+</html>
